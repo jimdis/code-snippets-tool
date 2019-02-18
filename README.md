@@ -1,1 +1,3 @@
-#Examination 2
+# Examination 2
+
+Just a simple web application for code snippets.

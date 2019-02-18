@@ -1,0 +1,11 @@
+<h1>
+    <span class="far fa-edit"></span> Edit
+</h1>
+
+<form method="post" action="/create/edit">
+    <input type="hidden" name="id" value="{{locals.id}}" />
+    <div class="form-group">
+        <input type="number" class="form-control" name="number" placeholder="Update number here" value="{{locals.number}}" required="required" autofocus="autofocus" />
+    </div>
+    <button type="submit" class="btn btn-lg btn-primary">Update</button>
+</form>

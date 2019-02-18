@@ -1,0 +1,11 @@
+<h1>
+    <span class="far fa-trash-alt"></span> Delete
+</h1>
+
+<form method="post" action="/create/delete">
+    <input type="hidden" name="id" value="{{locals.id}}" />
+    <div class="alert alert-danger" role="alert">
+        Are you sure you want to delete number {{locals.number}} ???
+    </div>
+    <button type="submit" class="btn btn-lg btn-danger" autofocus="autofocus">DELETE!</button>
+</form>

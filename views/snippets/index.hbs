@@ -1,0 +1,40 @@
+<div class="container">
+    <h1 class="display-3">
+        {{title}}
+    </h1>
+    <table class="table table-striped">
+        <caption>Snippets!</caption>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Language</th>
+                <th>Author</th>
+                <th>Edit/Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#if locals.snippets.length }}
+            {{#each locals.snippets}}
+            <tr>
+                <td>{{this.title}}</td>
+                <td>{{this.description}}</td>
+                <td>{{this.language}}</td>
+                <td>{{this.author}}</td>
+                <td>
+                    <a href="/create/edit/{{this.id}}"><span class="far fa-edit"></span></a>
+                    <a href="/create/delete/{{this.id}}"><span class="far fa-trash-alt"></span></a>
+                </td>
+            </tr>
+            {{/each}}
+            {{else}}
+            <tr>
+                <td colspan="5" class="text-center text-danger">
+                    No snippets to display :(
+                </td>
+            </tr>
+            {{/if}}
+        </tbody>
+    </table>
+</div>
+<!-- /container -->
