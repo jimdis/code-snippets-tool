@@ -2,7 +2,7 @@
     <h1 class="display-3">
         {{title}}
     </h1>
-    <table class="table table-striped">
+    <table class="table table-hover">
         <caption>Snippets!</caption>
         <thead>
             <tr>
@@ -16,7 +16,7 @@
         <tbody>
             {{#if locals.snippets.length }}
             {{#each locals.snippets}}
-            <tr>
+            <tr class="accordion-toggle" data-toggle="collapse" data-target="#snippet{{this.id}}">
                 <td>{{this.title}}</td>
                 <td>{{this.description}}</td>
                 <td>{{this.language}}</td>
@@ -24,6 +24,11 @@
                 <td>
                     <a href="/create/edit/{{this.id}}"><span class="far fa-edit"></span></a>
                     <a href="/create/delete/{{this.id}}"><span class="far fa-trash-alt"></span></a>
+                </td>
+            </tr>
+            <tr>
+                <td class="accordion-body collapse" id="snippet{{this.id}}" colspan="5">
+                    <div>{{this.content}}</div>
                 </td>
             </tr>
             {{/each}}

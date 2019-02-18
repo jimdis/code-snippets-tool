@@ -19,7 +19,8 @@ snippetsController.index = async (req, res, next) => {
           title: snippet.title,
           description: snippet.description,
           author: snippet.author,
-          language: snippet.language
+          language: snippet.language,
+          content: snippet.content
         }))
     }
     res.render('snippets/index', { title, locals })
