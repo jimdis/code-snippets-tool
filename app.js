@@ -55,16 +55,16 @@ app.use((req, res, next) => {
 app.use('/', require('./routes/homeRouter'))
 app.use('/snippets', require('./routes/snippetsRouter'))
 
-// catch 403
-app.use((req, res, next) => {
-  res.status(403)
-  res.sendFile(path.join(__dirname, 'public', '403.html'))
-})
-
 // catch 404
 app.use((req, res, next) => {
   res.status(404)
   res.sendFile(path.join(__dirname, 'public', '404.html'))
+})
+
+// catch 403
+app.use((req, res, next) => {
+  res.status(403)
+  res.sendFile(path.join(__dirname, 'public', '403.html'))
 })
 
 // error handler
