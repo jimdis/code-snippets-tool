@@ -13,6 +13,11 @@ router.route('/create')
   .get(controller.create)
   .post(controller.createPost)
 
+// GET, POST /login
+router.route('/login')
+  .get(controller.login)
+  .post(controller.loginPost)
+
 // // GET, POST /edit
 // router.get('/edit/:id', controller.edit)
 // router.post('/edit', controller.editPost)

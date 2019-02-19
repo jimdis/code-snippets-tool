@@ -1,0 +1,29 @@
+<div class="container">
+    <h1 class="display-3">
+        Your account
+    </h1>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Joined</th>
+                <th>Number of Snippets</th>
+                <th>Edit/Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{locals.username}}</td>
+                <td>{{locals.password}}</td>
+                <td>{{locals.date}}</td>
+                <td>[20(link)]</td>
+                <td>
+                    <a href="/create/edit/{{user.id}}"><span class="far fa-edit"></span></a>
+                    <a href="/create/delete/{{user.id}}"><span class="far fa-trash-alt"></span></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!-- /container -->

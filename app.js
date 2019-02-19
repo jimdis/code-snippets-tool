@@ -8,8 +8,6 @@ const logger = require('morgan')
 
 const mongoose = require('./config/mongoose')
 
-const User = require('./models/User')
-
 const app = express()
 
 // connect to the database
@@ -49,17 +47,6 @@ app.use(async (req, res, next) => {
   // flash messages - survives only a round trip
   res.locals.flash = req.session.flash
   delete req.session.flash
-
-  // checks if user is logged in
-  try {
-    console.log(req.sessionID)
-    const user = await User.findOne({ session: req.sessionID })
-    console.log(user)
-    if (user) req.session.user = user.username
-  } catch (error) {
-    req.session.flash = { type: 'danger', text: error.message }
-    res.redirect('.')
-  }
 
   next()
 })
