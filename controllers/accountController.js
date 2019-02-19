@@ -29,28 +29,26 @@ accountController.index = async (req, res, next) => {
  */
 accountController.create = async (req, res, next) => res.render('account/create')
 
-// /**
-//  * create POST
-//  */
-// snippetsController.createPost = async (req, res, next) => {
-//   try {
-//     const snippet = new Snippet({
-//       author: req.body.author,
-//       title: req.body.title,
-//       description: req.body.description,
-//       language: req.body.language,
-//       content: req.body.content
-//     })
+/**
+ * create POST
+ */
+accountController.createPost = async (req, res, next) => {
+  try {
+    const user = new User({
+      username: req.body.username,
+      password: req.body.password,
+      session: req.sessionID
+    })
 
-//     await snippet.save()
+    await user.save()
 
-//     req.session.flash = { type: 'success', text: 'Snippet was created successfully.' }
-//     res.redirect('.')
-//   } catch (error) {
-//     req.session.flash = { type: 'danger', text: error.message }
-//     res.redirect('./create')
-//   }
-// }
+    req.session.flash = { type: 'success', text: 'User Account was created successfully.' }
+    res.redirect('/')
+  } catch (error) {
+    req.session.flash = { type: 'danger', text: error.message }
+    res.redirect('./create')
+  }
+}
 
 // /**
 //  * edit GET

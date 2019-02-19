@@ -4,8 +4,6 @@ const Snippet = require('../models/Snippet')
 
 const snippetsController = {}
 
-const title = 'Snippetizer'
-
 /**
  * index GET
  */
@@ -23,7 +21,7 @@ snippetsController.index = async (req, res, next) => {
           content: snippet.content
         }))
     }
-    res.render('snippets/index', { title, locals })
+    res.render('snippets/index', { locals })
   } catch (error) {
     next(error)
   }

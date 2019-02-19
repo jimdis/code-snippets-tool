@@ -1,7 +1,7 @@
 'use strict'
 
 const homeController = {}
-const title = 'Snippetizer'
+const title = 'SnippetHeap'
 
 /**
  * index GET

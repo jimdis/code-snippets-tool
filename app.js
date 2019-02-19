@@ -8,6 +8,8 @@ const logger = require('morgan')
 
 const mongoose = require('./config/mongoose')
 
+const User = require('./models/User')
+
 const app = express()
 
 // connect to the database
@@ -31,8 +33,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // setup and use session middleware (https://github.com/expressjs/session)
 const sessionOptions = {
-  name: 'name of keyboard cat', // Don't use default session cookie name.
-  secret: 'keyboard cat', // Change it!!! The secret is used to hash the session with HMAC.
+  name: 'snippetheap', // Don't use default session cookie name.
+  secret: 'sC#TvqLFMYG27CLr4A%@UTkqM&M9iwa', // Change it!!! The secret is used to hash the session with HMAC.
   resave: false, // Resave even if a request is not changing the session.
   saveUninitialized: false, // Don't save a created but not modified session.
   cookie: {
@@ -43,10 +45,21 @@ const sessionOptions = {
 app.use(session(sessionOptions))
 
 // middleware to be executed before the routes
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   // flash messages - survives only a round trip
   res.locals.flash = req.session.flash
   delete req.session.flash
+
+  // checks if user is logged in
+  try {
+    console.log(req.sessionID)
+    const user = await User.findOne({ session: req.sessionID })
+    console.log(user)
+    if (user) req.session.user = user.username
+  } catch (error) {
+    req.session.flash = { type: 'danger', text: error.message }
+    res.redirect('.')
+  }
 
   next()
 })

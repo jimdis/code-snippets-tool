@@ -22,6 +22,9 @@ const userSchema = new mongoose.Schema({
     trim: true,
     minlength: 8,
     maxlength: 30
+  },
+  session: {
+    type: String
   }
 })
 
