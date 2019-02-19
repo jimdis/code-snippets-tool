@@ -54,6 +54,7 @@ app.use((req, res, next) => {
 // routes
 app.use('/', require('./routes/homeRouter'))
 app.use('/snippets', require('./routes/snippetsRouter'))
+app.use('/account', require('./routes/accountRouter'))
 
 // catch 404
 app.use((req, res, next) => {

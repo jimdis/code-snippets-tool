@@ -1,0 +1,14 @@
+<h1>
+    <span class="far fa-plus-square"></span> Create new User Account
+</h1>
+<form method="post" action="/account/create">
+    <div class="form-group">
+        <label for="accountUsername">Username</label>
+        <input type="text" class="form-control" id="accountUsername" name="username" placeholder="Select a unique username..." required="required" autofocus="autofocus">
+    </div>
+    <div class="form-group">
+        <label for="accountPassword">Password</label>
+        <input type="text" class="form-control" id="accountPassword" name="password" placeholder="Select a strong password" required="required">
+    </div>
+    <button type="submit" class="btn btn-lg btn-primary">Create new account!</button>
+</form>
