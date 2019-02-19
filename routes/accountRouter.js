@@ -5,8 +5,10 @@ const router = express.Router()
 
 const controller = require('../controllers/accountController')
 
-// GET /
-router.get('/', controller.index)
+// GET, POST /
+router.route('/')
+  .get(controller.index)
+  .post(controller.indexPost)
 
 // GET, POST /create
 router.route('/create')

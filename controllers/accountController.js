@@ -27,6 +27,20 @@ accountController.index = async (req, res, next) => {
 }
 
 /**
+ * index POST
+ */
+accountController.indexPost = async (req, res, next) => {
+  try {
+    req.session.userID = null
+    req.session.flash = { type: 'success', text: 'You have been logged out.' }
+    res.redirect('/account/login')
+  } catch (error) {
+    req.session.flash = { type: 'danger', text: error.message }
+    res.redirect('.')
+  }
+}
+
+/**
  * login GET
  */
 accountController.login = async (req, res, next) => res.render('account/login')
