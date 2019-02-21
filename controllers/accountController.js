@@ -15,7 +15,6 @@ accountController.index = async (req, res, next) => {
       const user = await User.findOne({ _id: req.session.userID })
       const locals = {
         username: user.username,
-        password: user.password,
         date: user.createdAt
       }
       res.render('account/', { locals })
@@ -52,10 +51,14 @@ accountController.loginPost = async (req, res, next) => {
   try {
     const user = await User.findOne({ username: req.body.username })
     if (!user) throw new Error(`The username ${req.body.username} does not exist`)
-    if (user.password !== req.body.password) throw new Error('The entered password does not match the username')
-    req.session.userID = user._id
-    console.log(req.session)
-    res.redirect('./')
+    let result = await user.comparePassword(req.body.password)
+    if (result) {
+      req.session.userID = user._id
+      console.log(req.session)
+      res.redirect('./')
+    } else {
+      throw new Error('The entered password does not match the username')
+    }
   } catch (error) {
     req.session.flash = { type: 'danger', text: error.message }
     res.redirect('./login')
@@ -71,9 +74,6 @@ accountController.create = async (req, res, next) => res.render('account/create'
  */
 accountController.createPost = async (req, res, next) => {
   try {
-    // const exists = await User.findOne({ username: { $regex: req.body.username, $options: 'i' } })
-    // console.log(exists)
-    // if (exists) throw new Error(`The username ${req.body.username} already exists`)
     const user = new User({
       username: req.body.username,
       password: req.body.password,
@@ -86,6 +86,7 @@ accountController.createPost = async (req, res, next) => {
     res.redirect('/')
   } catch (error) {
     req.session.flash = { type: 'danger', text: error.message }
+    // res.status(422).render('account/create') - MÅSTE FÅ IN en 422 med flash!??
     res.redirect('./create')
   }
 }
