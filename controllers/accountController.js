@@ -71,9 +71,9 @@ accountController.create = async (req, res, next) => res.render('account/create'
  */
 accountController.createPost = async (req, res, next) => {
   try {
-    const exists = await User.findOne({ username: { $regex: req.body.username, $options: 'i' } })
-    console.log(exists)
-    if (exists) throw new Error(`The username ${req.body.username} already exists`)
+    // const exists = await User.findOne({ username: { $regex: req.body.username, $options: 'i' } })
+    // console.log(exists)
+    // if (exists) throw new Error(`The username ${req.body.username} already exists`)
     const user = new User({
       username: req.body.username,
       password: req.body.password,
