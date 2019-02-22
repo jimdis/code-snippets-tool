@@ -13,7 +13,8 @@
     </div>
     <div class="form-group">
         <label for="snippetLanguage">Language</label>
-        <input type="text" class="form-control" id="snippetLanguage" name="language" placeholder="Programming language --> CHANGE TO LIST!" required="required">
+        <input list="languagesList" class="form-control" id="snippetLanguage" name="language" placeholder="Programming language --> CHANGE TO LIST!" required="required">
+        <datalist id="languagesList"></datalist>
     </div>
     <div class="form-group">
         <label for="snippetContent">Code</label>
@@ -21,3 +22,4 @@
     </div>
     <button type="submit" class="btn btn-lg btn-primary">Store Snippet!</button>
 </form>
+<script>listenInput()</script>
