@@ -17,6 +17,7 @@ accountController.index = async (req, res, next) => {
         username: user.username,
         date: user.createdAt
       }
+      res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0')
       res.render('account/', { locals })
     } catch (error) {
       req.session.flash = { type: 'danger', text: error.message }
@@ -30,9 +31,8 @@ accountController.index = async (req, res, next) => {
  */
 accountController.indexPost = async (req, res, next) => {
   try {
-    req.session.userID = null
-    req.session.flash = { type: 'success', text: 'You have been logged out.' }
-    res.redirect('/account/login')
+    req.session.destroy(err => { if (err) throw new Error(err) })
+    res.redirect('/')
   } catch (error) {
     req.session.flash = { type: 'danger', text: error.message }
     res.redirect('.')
@@ -53,8 +53,8 @@ accountController.loginPost = async (req, res, next) => {
     if (!user) throw new Error(`The username ${req.body.username} does not exist`)
     let result = await user.comparePassword(req.body.password)
     if (result) {
+      req.session.regenerate(err => { if (err) throw new Error(err) })
       req.session.userID = user._id
-      console.log(req.session)
       res.redirect('./')
     } else {
       throw new Error('The entered password does not match the username')
@@ -76,12 +76,11 @@ accountController.createPost = async (req, res, next) => {
   try {
     const user = new User({
       username: req.body.username,
-      password: req.body.password,
-      sessionID: req.sessionID
+      password: req.body.password
     })
 
     await user.save()
-
+    req.session.userID = user._id
     req.session.flash = { type: 'success', text: 'User Account was created successfully.' }
     res.redirect('/')
   } catch (error) {

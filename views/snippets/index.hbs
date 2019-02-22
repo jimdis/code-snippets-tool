@@ -22,8 +22,10 @@
                 <td>{{this.language}}</td>
                 <td>{{this.author}}</td>
                 <td>
+                    {{#if this.editable}}
                     <a href="/create/edit/{{this.id}}"><span class="far fa-edit"></span></a>
                     <a href="/create/delete/{{this.id}}"><span class="far fa-trash-alt"></span></a>
+                    {{/if}}
                 </td>
             </tr>
             <tr>

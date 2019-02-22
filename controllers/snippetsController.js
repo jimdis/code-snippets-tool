@@ -19,7 +19,8 @@ snippetsController.index = async (req, res, next) => {
           description: snippet.description,
           author: snippet.author,
           language: snippet.language,
-          content: snippet.content
+          content: snippet.content,
+          editable: snippet.userID === req.session.userID
         }))
     }
     res.render('snippets/index', { locals })
