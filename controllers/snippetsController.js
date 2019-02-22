@@ -1,6 +1,7 @@
 'use strict'
 
 const Snippet = require('../models/Snippet')
+const User = require('../models/User')
 
 const snippetsController = {}
 
@@ -31,8 +32,10 @@ snippetsController.index = async (req, res, next) => {
  * create GET
  */
 snippetsController.create = async (req, res, next) => {
+  const scripts = [{ script: '/js/languageFinder.js' }]
   const locals = {
-    author: 'jimdis'
+    userID: req.session.userID,
+    scripts: scripts
   }
   res.render('snippets/create', { locals })
 }
@@ -42,8 +45,10 @@ snippetsController.create = async (req, res, next) => {
  */
 snippetsController.createPost = async (req, res, next) => {
   try {
+    const user = await User.findOne({ _id: req.body.userID })
     const snippet = new Snippet({
-      author: req.body.author,
+      userID: req.body.userID,
+      author: user.username,
       title: req.body.title,
       description: req.body.description,
       language: req.body.language,

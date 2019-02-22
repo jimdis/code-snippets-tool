@@ -2,7 +2,7 @@
     <span class="far fa-plus-square"></span> Create new Snippet
 </h1>
 <form method="post" action="/snippets/create">
-    <input type="hidden" name="author" value="{{locals.author}}" />
+    <input type="hidden" name="userID" value="{{locals.userID}}" />
     <div class="form-group">
         <label for="snippetTitle">Title</label>
         <input type="text" class="form-control" id="snippetTitle" name="title" placeholder="A memorable name for your snippet..." required="required" autofocus="autofocus">
@@ -13,7 +13,7 @@
     </div>
     <div class="form-group">
         <label for="snippetLanguage">Language</label>
-        <input list="languagesList" class="form-control" id="snippetLanguage" name="language" placeholder="Programming language --> CHANGE TO LIST!" required="required">
+        <input list="languagesList" class="form-control" id="snippetLanguage" name="language" autocomplete="off">
         <datalist id="languagesList"></datalist>
     </div>
     <div class="form-group">
@@ -22,4 +22,3 @@
     </div>
     <button type="submit" class="btn btn-lg btn-primary">Store Snippet!</button>
 </form>
-<script>listenInput()</script>

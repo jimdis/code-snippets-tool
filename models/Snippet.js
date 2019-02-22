@@ -4,10 +4,10 @@ const mongoose = require('mongoose')
 
 // Create a schema.
 const snippetSchema = new mongoose.Schema({
-  createdAt: {
-    type: Date,
+  userID: {
+    type: String,
     required: true,
-    default: Date.now
+    trim: true
   },
   author: {
     type: String,
@@ -30,7 +30,7 @@ const snippetSchema = new mongoose.Schema({
   },
   language: {
     type: String,
-    required: true,
+    required: false,
     trim: true,
     minlength: 1
   },
@@ -40,7 +40,7 @@ const snippetSchema = new mongoose.Schema({
     trim: true,
     minlength: 1
   }
-})
+}, { timestamps: true })
 
 // Create a model using the schema.
 const Snippet = mongoose.model('Snippet', snippetSchema)
