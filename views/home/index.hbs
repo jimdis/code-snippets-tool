@@ -2,8 +2,11 @@
 <div class="jumbotron">
     <div class="container">
         <h1 class="display-3">
-            {{title}}
+            {{locals.title}}
         </h1>
+        {{#if locals.username}}
+        <h2>Hello {{locals.username}}</h2>
+        {{/if}}
         <p>
             Get and store your code snippets here!
         </p>

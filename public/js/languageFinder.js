@@ -1,13 +1,25 @@
+/* global $ */
 'use strict'
 
-const input = document.getElementById('snippetLanguage')
-input.addEventListener('input', (event) => {
-  getLanguage(input.value).then(result => createLanguageList(result))
-})
+async function loadLanguages () {
+  let data = await window.fetch('/js/languages.json')
+  data = await data.json()
+  let languages = data.itemListElement.map(item => item.item.name)
 
-function createLanguageList (result) {
+  $('#snippetLanguage').on('input', (event) => {
+    createLanguageList(languages, event.currentTarget.value)
+  })
+}
+
+function createLanguageList (languages, input) {
   let datalist = document.getElementById('languagesList')
   datalist.innerHTML = ''
+  RegExp.escape = function (s) {
+    return s.replace(/[-\\$*+?.()|[\]{}]/g, '\\$&')
+  }
+  let find = new RegExp(RegExp.escape(`^${input}`), 'gi')
+  let result = languages
+    .filter(language => language.match(find))
   result.forEach(language => {
     let option = document.createElement('option')
     option.value = language
@@ -15,14 +27,6 @@ function createLanguageList (result) {
   })
 }
 
-async function getLanguage (search) {
-  let response = await window.fetch('/js/languages.json')
-  let data = await response.json()
-  RegExp.escape = function (s) {
-    return s.replace(/[-\\$*+?.()|[\]{}]/g, '\\$&')
-  }
-  let find = new RegExp(RegExp.escape(`^${search}`), 'gi')
-  return data.itemListElement
-    .filter(language => language.item.name.match(find))
-    .map(item => item.item.name)
-}
+$(document).ready(function () {
+  loadLanguages()
+})

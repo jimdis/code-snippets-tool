@@ -2,6 +2,16 @@
     <h1 class="display-3">
         Snippets
     </h1>
+    {{#if locals.userID}}
+    <div class="mb-3">
+        <a href="/snippets/create" class="btn btn-primary" role="button">Create a new Snippet »</a>
+    </div>
+    {{else}}
+    <div class="col py-3 bg-light">
+        <p>You need an account to create snippets.</p>
+        <p><a href="/account/login" class="btn btn-primary btn-sm">Log in</a> or <a href="/account/create" class="btn btn-primary btn-sm">Create a new account</a></p>
+    </div>
+    {{/if}}
     <table class="table table-hover">
         <caption>Snippets!</caption>
         <thead>
@@ -10,7 +20,7 @@
                 <th>Description</th>
                 <th>Language</th>
                 <th>Author</th>
-                <th>Edit/Delete</th>
+                <th class="text-center">{{#if locals.userID}}Edit/Delete{{/if}}</th>
             </tr>
         </thead>
         <tbody>
@@ -21,12 +31,13 @@
                 <td>{{this.description}}</td>
                 <td>{{this.language}}</td>
                 <td>{{this.author}}</td>
-                <td>
+                <td class="text-center">
                     {{#if this.editable}}
                     <a href="/create/edit/{{this.id}}"><span class="far fa-edit"></span></a>
                     <a href="/create/delete/{{this.id}}"><span class="far fa-trash-alt"></span></a>
                     {{/if}}
                 </td>
+
             </tr>
             <tr>
                 <td class="accordion-body collapse" id="snippet{{this.id}}" colspan="5">

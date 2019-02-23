@@ -55,7 +55,8 @@ accountController.loginPost = async (req, res, next) => {
     if (result) {
       req.session.regenerate(err => { if (err) throw new Error(err) })
       req.session.userID = user._id
-      res.redirect('./')
+      req.session.username = user.username
+      res.redirect('../snippets')
     } else {
       throw new Error('The entered password does not match the username')
     }

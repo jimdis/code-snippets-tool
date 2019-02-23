@@ -10,11 +10,13 @@
                     <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/snippets">Browse Snippets</a>
+                    <a class="nav-link" href="/snippets">Snippets</a>
                 </li>
+                {{#if locals.userID}}
                 <li class="nav-item">
                     <a class="nav-link" href="/snippets/create">Create Snippet</a>
                 </li>
+                {{/if}}
                 <li class="nav-item">
                     <a class="nav-link" href="/account">Account</a>
                 </li>

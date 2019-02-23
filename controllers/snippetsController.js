@@ -12,6 +12,7 @@ const snippetsController = {}
 snippetsController.index = async (req, res, next) => {
   try {
     const locals = {
+      userID: req.session.userID,
       snippets: (await Snippet.find({}))
         .map(snippet => ({
           id: snippet._id,
@@ -33,12 +34,18 @@ snippetsController.index = async (req, res, next) => {
  * create GET
  */
 snippetsController.create = async (req, res, next) => {
-  const scripts = [{ script: '/js/languageFinder.js' }]
-  const locals = {
-    userID: req.session.userID,
-    scripts: scripts
+  try {
+    if (!req.session.userID) throw new Error('You need to be logged in to create a new snippet')
+    const scripts = [{ script: '/js/languageFinder.js' }]
+    const locals = {
+      userID: req.session.userID,
+      scripts: scripts
+    }
+    res.render('snippets/create', { locals })
+  } catch (error) {
+    req.session.flash = { type: 'danger', text: error.message }
+    res.redirect('../account/login')
   }
-  res.render('snippets/create', { locals })
 }
 
 /**
@@ -46,6 +53,7 @@ snippetsController.create = async (req, res, next) => {
  */
 snippetsController.createPost = async (req, res, next) => {
   try {
+    if (!req.session.userID) throw new Error('You need to be logged in to create a snippet')
     const user = await User.findOne({ _id: req.body.userID })
     const snippet = new Snippet({
       userID: req.body.userID,

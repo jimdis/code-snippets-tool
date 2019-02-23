@@ -1,12 +1,17 @@
 'use strict'
 
 const homeController = {}
-const title = 'SnippetHeap'
 
 /**
  * index GET
  */
-homeController.index = async (req, res, next) => res.render('home/index', { title })
+homeController.index = async (req, res, next) => {
+  const locals = {
+    title: 'SnippetHeap',
+    username: req.session.username
+  }
+  res.render('home/index', { locals })
+}
 
 // Exports.
 module.exports = homeController
