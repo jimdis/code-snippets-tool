@@ -13,9 +13,9 @@ router.route('/create')
   .get(controller.create)
   .post(controller.createPost)
 
-// // GET, POST /edit
-// router.get('/edit/:id', controller.edit)
-// router.post('/edit', controller.editPost)
+// GET, POST /edit
+router.get('/edit/:id', controller.edit)
+router.post('/edit', controller.editPost)
 
 // // GET, POST  /delete
 // router.get('/delete/:id', controller.delete)

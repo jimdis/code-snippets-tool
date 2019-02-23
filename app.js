@@ -1,6 +1,7 @@
 'use strict'
 
 const express = require('express')
+const helmet = require('helmet')
 const hbs = require('express-hbs')
 const session = require('express-session')
 const path = require('path')
@@ -15,6 +16,9 @@ mongoose.connect().catch(error => {
   console.error(error)
   process.exit(1)
 })
+
+// Initiate helmet
+app.use(helmet())
 
 // view engine setup
 app.engine('hbs', hbs.express4({

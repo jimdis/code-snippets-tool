@@ -74,46 +74,56 @@ snippetsController.createPost = async (req, res, next) => {
   }
 }
 
-// /**
-//  * edit GET
-//  */
-// createController.edit = async (req, res, next) => {
-//   try {
-//     const pureNumber = await PureNumber.findOne({ _id: req.params.id })
-//     const locals = {
-//       id: pureNumber._id,
-//       number: pureNumber.number
-//     }
-//     res.render('create/edit', { locals })
-//   } catch (error) {
-//     req.session.flash = { type: 'danger', text: error.message }
-//     res.redirect('.')
-//   }
-// }
+/**
+ * edit GET
+ */
+snippetsController.edit = async (req, res, next) => {
+  try {
+    const snippet = await Snippet.findOne({ _id: req.params.id })
+    const locals = {
+      snippetID: snippet._id,
+      userID: snippet.userID,
+      author: snippet.author,
+      title: snippet.title,
+      description: snippet.description,
+      language: snippet.language,
+      content: snippet.content
+    }
+    res.render('snippets/edit', { locals })
+  } catch (error) {
+    req.session.flash = { type: 'danger', text: error.message }
+    res.redirect('.')
+  }
+}
 
-// /**
-//  * edit POST
-//  */
-// createController.editPost = async (req, res, next) => {
-//   try {
-//     const result = await PureNumber.updateOne({ _id: req.body.id }, {
-//       number: req.body.number
-//     })
-
-//     if (result.nModified === 1) {
-//       req.session.flash = { type: 'success', text: 'Number was updated successfully.' }
-//     } else {
-//       req.session.flash = {
-//         type: 'danger',
-//         text: 'The number you attempted to update was removed by another user after you got the original values.'
-//       }
-//     }
-//     res.redirect('/')
-//   } catch (error) {
-//     req.session.flash = { type: 'danger', text: error.message }
-//     res.redirect(`./edit/${req.body.id}`)
-//   }
-// }
+/**
+ * edit POST
+ */
+snippetsController.editPost = async (req, res, next) => {
+  try {
+    // AUTHORIZE FIRST!!!
+    const result = await Snippet.updateOne({ _id: req.body.snippetID },
+      {
+        title: req.body.title,
+        description: req.body.description,
+        language: req.body.language,
+        content: req.body.content
+      })
+    console.log(result)
+    if (result.nModified === 1) {
+      req.session.flash = { type: 'success', text: 'Your Snippet was updated successfully.' }
+    } else {
+      req.session.flash = {
+        type: 'danger',
+        text: `There was a problem with updating your snippet: ${result}`
+      }
+    }
+    res.redirect('.')
+  } catch (error) {
+    req.session.flash = { type: 'danger', text: error.message }
+    res.redirect('.')
+  }
+}
 
 // /**
 //  * delete GET

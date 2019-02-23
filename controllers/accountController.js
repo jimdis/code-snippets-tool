@@ -50,7 +50,7 @@ accountController.login = async (req, res, next) => res.render('account/login')
 accountController.loginPost = async (req, res, next) => {
   try {
     const user = await User.findOne({ username: req.body.username })
-    if (!user) throw new Error(`The username ${req.body.username} does not exist`)
+    if (!user) throw new Error(`Username ${req.body.username} does not exist or does not match password`)
     let result = await user.comparePassword(req.body.password)
     if (result) {
       req.session.regenerate(err => { if (err) throw new Error(err) })
@@ -58,7 +58,7 @@ accountController.loginPost = async (req, res, next) => {
       req.session.username = user.username
       res.redirect('../snippets')
     } else {
-      throw new Error('The entered password does not match the username')
+      throw new Error(`Username ${req.body.username} does not exist or does not match password`)
     }
   } catch (error) {
     req.session.flash = { type: 'danger', text: error.message }
