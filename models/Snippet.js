@@ -31,8 +31,7 @@ const snippetSchema = new mongoose.Schema({
   language: {
     type: String,
     required: false,
-    trim: true,
-    minlength: 1
+    trim: true
   },
   content: {
     type: String,

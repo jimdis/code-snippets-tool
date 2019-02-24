@@ -17,8 +17,8 @@ router.route('/create')
 router.get('/edit/:id', controller.edit)
 router.post('/edit', controller.editPost)
 
-// // GET, POST  /delete
-// router.get('/delete/:id', controller.delete)
+// GET /delete
+router.get('/delete/:id', controller.delete)
 // router.post('/delete', controller.deletePost)
 
 // Exports.

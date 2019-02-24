@@ -79,7 +79,9 @@ snippetsController.createPost = async (req, res, next) => {
  */
 snippetsController.edit = async (req, res, next) => {
   try {
+    if (!req.session.userID) throw new Error('You need to be logged in to edit a snippet')
     const snippet = await Snippet.findOne({ _id: req.params.id })
+    if (req.session.userID !== snippet.userID) throw new Error('You do not have access to edit this snippet')
     const locals = {
       snippetID: snippet._id,
       userID: snippet.userID,
@@ -92,7 +94,7 @@ snippetsController.edit = async (req, res, next) => {
     res.render('snippets/edit', { locals })
   } catch (error) {
     req.session.flash = { type: 'danger', text: error.message }
-    res.redirect('.')
+    res.redirect('..')
   }
 }
 
@@ -101,7 +103,7 @@ snippetsController.edit = async (req, res, next) => {
  */
 snippetsController.editPost = async (req, res, next) => {
   try {
-    // AUTHORIZE FIRST!!!
+    if (req.session.userID !== req.body.userID) throw new Error('You do not have access to modify this snippet')
     const result = await Snippet.updateOne({ _id: req.body.snippetID },
       {
         title: req.body.title,
@@ -142,20 +144,22 @@ snippetsController.editPost = async (req, res, next) => {
 //   }
 // }
 
-// /**
-//  * delete POST
-//  */
-// createController.deletePost = async (req, res, next) => {
-//   try {
-//     await PureNumber.deleteOne({ _id: req.body.id })
-
-//     req.session.flash = { type: 'success', text: 'Number was removed successfully.' }
-//     res.redirect('/')
-//   } catch (error) {
-//     req.session.flash = { type: 'danger', text: error.message }
-//     req.redirect(`./delete/${req.body.id}`)
-//   }
-// }
+/**
+ * delete GET
+ */
+snippetsController.delete = async (req, res, next) => {
+  try {
+    const snippet = await Snippet.findOne({ _id: req.params.id })
+    console.log(snippet)
+    if (req.session.userID !== snippet.userID) throw new Error('You do not have access to delete this snippet')
+    await Snippet.deleteOne({ _id: req.params.id })
+    req.session.flash = { type: 'success', text: 'Snippet was removed successfully.' }
+    res.redirect('..')
+  } catch (error) {
+    req.session.flash = { type: 'danger', text: error.message }
+    res.redirect('..')
+  }
+}
 
 // Exports.
 module.exports = snippetsController
