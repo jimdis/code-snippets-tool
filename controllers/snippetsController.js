@@ -127,23 +127,6 @@ snippetsController.editPost = async (req, res, next) => {
   }
 }
 
-// /**
-//  * delete GET
-//  */
-// createController.delete = async (req, res, next) => {
-//   try {
-//     const pureNumber = await PureNumber.findOne({ _id: req.params.id })
-//     const locals = {
-//       id: pureNumber._id,
-//       number: pureNumber.number
-//     }
-//     res.render('create/delete', { locals })
-//   } catch (error) {
-//     req.session.flash = { type: 'danger', text: error.message }
-//     res.redirect('.')
-//   }
-// }
-
 /**
  * delete GET
  */

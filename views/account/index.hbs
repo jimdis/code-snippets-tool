@@ -6,22 +6,21 @@
         <thead>
             <tr>
                 <th>Username</th>
-                <th>Something fun here?</th>
                 <th>Joined</th>
-                <th>Number of Snippets</th>
-                <th>Edit/Delete</th>
+                <th class="text-center">#Snippets</th>
+                {{!-- Implement later:
+                <th class="text-center">Edit/Delete Account</th> --}}
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>{{locals.username}}</td>
-                <td>Something fun?</td>
                 <td>{{locals.date}}</td>
-                <td>[20(link)]</td>
-                <td>
+                <td class="text-center">{{locals.snippets}}</td>
+                {{!-- <td class="text-center">
                     <a href="/create/edit/{{user.id}}"><span class="far fa-edit"></span></a>
                     <a href="/create/delete/{{user.id}}"><span class="far fa-trash-alt"></span></a>
-                </td>
+                </td> --}}
             </tr>
         </tbody>
     </table>
@@ -29,4 +28,3 @@
         <button type="submit" class="btn btn-lg btn-danger">Log out!</button>
     </form>
 </div>
-<!-- /container -->

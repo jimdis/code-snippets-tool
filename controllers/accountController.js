@@ -1,6 +1,8 @@
 'use strict'
 
 const User = require('../models/User')
+const Snippet = require('../models/Snippet')
+const moment = require('moment')
 
 const accountController = {}
 
@@ -13,11 +15,17 @@ accountController.index = async (req, res, next) => {
   if (req.session.userID) {
     try {
       const user = await User.findOne({ _id: req.session.userID })
+      let date = moment(user.createdAt).format('YYYY-MM-DD')
+      let snippets = await Snippet.find({ userID: user._id })
+      console.log(snippets.length)
+
       const locals = {
         userID: user._id,
         username: user.username,
-        date: user.createdAt
+        date: date,
+        snippets: snippets.length.toString()
       }
+      // Make sure account page is not cached
       res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0')
       res.render('account/', { locals })
     } catch (error) {
