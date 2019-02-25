@@ -17,7 +17,18 @@
             <tr>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Language</th>
+                <th>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="filterLanguageButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Language
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="filterLanguageButton" id="filterLanguageList">
+                            {{#each locals.languages}}
+                            <a class="dropdown-item" href="#">{{this}}</a>
+                            {{/each}}
+                        </div>
+                    </div>
+                </th>
                 <th>Author</th>
                 <th class="text-center">{{#if locals.userID}}Edit/Delete{{/if}}</th>
             </tr>
