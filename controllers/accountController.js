@@ -77,7 +77,15 @@ accountController.loginPost = async (req, res, next) => {
 /**
  * create GET
  */
-accountController.create = async (req, res, next) => res.render('account/create')
+accountController.create = async (req, res, next) => {
+  const scripts = [{ script: '/js/validate.js' }]
+  const locals = {
+    userID: req.session.userID,
+    scripts: scripts
+    // regex: '[!@#$%^&*(),.?":{}|<>-]'
+  }
+  res.render('account/create', { locals })
+}
 
 /**
  * create POST
