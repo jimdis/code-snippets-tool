@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     trim: true,
     minlength: [8, 'Your password must be at least 8 characters long'],
     maxlength: [200, 'Your password cannot exceed 200 characters'],
-    match: [/[!@#$%^&*(),.?":{}|<>]/, 'Your password must contain at least one special character: /[!@#$%^&*(),.?":{}|<>)']
+    match: [/[!@#$%^&*(),.?":{}|<>-]/, 'Your password must contain at least one special character: /[!@#$%^&*(),.?":{}|<>)']
   }
 }, { timestamps: true })
 
