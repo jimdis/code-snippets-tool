@@ -5,6 +5,7 @@ async function loadLanguages () {
   let data = await window.fetch('/js/languages.json')
   data = await data.json()
   let languages = data.itemListElement.map(item => item.item.name)
+  languages.push('CSS', 'HBS', 'Markdown', 'SCSS')
 
   $('#snippetLanguage').on('input', (event) => {
     createLanguageList(languages, event.currentTarget.value)
