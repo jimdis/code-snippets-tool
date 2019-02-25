@@ -1,16 +1,13 @@
 <header>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">SnippetHeap</a>
+    <nav class="navbar navbar-expand-md navbar-light fixed-top" style="background-color: #FF6B6B">
+        <a class="navbar-brand" href="/">SnippetHeap</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/snippets">Snippets</a>
+                    <a class="nav-link" href="/snippets">Browse Snippets</a>
                 </li>
                 {{#if locals.userID}}
                 <li class="nav-item">
@@ -21,6 +18,9 @@
                     <a class="nav-link" href="/account">Account</a>
                 </li>
             </ul>
+            <span class="navbar-text">
+                Your friendly snippet storage.
+            </span>
         </div>
     </nav>
 </header>

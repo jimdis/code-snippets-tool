@@ -8,6 +8,7 @@ const homeController = {}
 homeController.index = async (req, res, next) => {
   const locals = {
     title: 'SnippetHeap',
+    userID: req.session.username,
     username: req.session.username
   }
   res.render('home/index', { locals })

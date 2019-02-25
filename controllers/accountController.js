@@ -14,6 +14,7 @@ accountController.index = async (req, res, next) => {
     try {
       const user = await User.findOne({ _id: req.session.userID })
       const locals = {
+        userID: user._id,
         username: user.username,
         date: user.createdAt
       }
