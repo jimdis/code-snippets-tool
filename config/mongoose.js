@@ -24,6 +24,9 @@ module.exports.connect = async () => {
     })
   })
 
+  // Check that .env file with key exists.
+  if (!process.env.DB_CONN) throw new Error('You need an .env file with the database connection string')
+
   // Connect to the server.
   return mongoose.connect(process.env.DB_CONN, { useNewUrlParser: true })
 }

@@ -13,7 +13,9 @@ snippetsController.index = async (req, res, next) => {
   try {
     const scripts = [{ script: '/js/snippetsFilter.js' }]
     const snippets = await Snippet.find({})
-    const languages = snippets.map(snippet => snippet.language.toLowerCase())
+    const languages = snippets
+      .filter(snippet => snippet.language.length > 0)
+      .map(snippet => snippet.language.toLowerCase())
     const locals = {
       userID: req.session.userID,
       snippets: snippets.map(snippet => ({

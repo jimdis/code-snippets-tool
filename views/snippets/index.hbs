@@ -18,7 +18,13 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>
-                    <div class="dropdown">
+                    <select id="filterLanguageList">
+                        <option selected>Language</option>
+                        {{#each locals.languages}}
+                        <option>{{this}}</option>
+                        {{/each}}
+                    </select>
+                    {{!-- <div class="dropdown">
                         <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="filterLanguageButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Language
                         </button>
@@ -27,7 +33,7 @@
                             <a class="dropdown-item" href="#">{{this}}</a>
                             {{/each}}
                         </div>
-                    </div>
+                    </div> --}}
                 </th>
                 <th>Author</th>
                 <th class="text-center">{{#if locals.userID}}Edit/Delete{{/if}}</th>
@@ -36,7 +42,7 @@
         <tbody>
             {{#if locals.snippets.length }}
             {{#each locals.snippets}}
-            <tr class="accordion-toggle" data-toggle="collapse" data-target="#snippet{{this.id}}">
+            <tr class="accordion-toggle" data-language="{{this.language}}" data-toggle="collapse" data-target="#snippet{{this.id}}">
                 <td>{{this.title}}</td>
                 <td>{{this.description}}</td>
                 <td>{{this.language}}</td>
@@ -49,7 +55,7 @@
                 </td>
 
             </tr>
-            <tr>
+            <tr data-language="{{this.language}}">
                 <td class="accordion-body collapse" id="snippet{{this.id}}" colspan="5">
                     <div>
                         <pre><code>{{this.content}}</code></pre>
