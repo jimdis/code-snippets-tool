@@ -1,21 +1,33 @@
 /* global $ */
 'use strict'
 
-function populateOptions (selection) {
+function populateOptions (selection = { author: 'Author', language: 'Language' }) {
   const languageList = $('#filterLanguageList')
   const authorList = $('#filterAuthorList')
   let languages = [...new Set(
     $('.language-td')
+      .filter((i, el) => {
+        if ($(el).next().text() === selection.author || selection.author === 'Author') return true
+      })
       .map((i, el) => {
         if ($(el).text().length > 0) return $(el).text()
       })
   )]
   languages.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+  languageList.html(`<option selected>Language</option>`)
   languages.forEach(language => languageList.append(`<option>${language}</option>)`))
 
-  let authors = [...new Set($('.author-td').map((i, el) => $(el).text()))]
+  let authors = [...new Set($('.author-td')
+    .filter((i, el) => {
+      if ($(el).prev().text() === selection.language || selection.language === 'Language') return true
+    })
+    .map((i, el) => $(el).text())
+  )]
   authors.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+  authorList.html(`<option selected>Author</option>`)
   authors.forEach(author => authorList.append(`<option>${author}</option>)`))
+  languageList.val(selection.language)
+  authorList.val(selection.author)
 }
 
 function filterList () {
@@ -25,19 +37,10 @@ function filterList () {
   let author = $('#filterAuthorList').val()
   let language = $('#filterLanguageList').val()
   $('tbody tr').each((i, el) => {
-    if ($(el).data('language') === language) $(el).show()
-    if ($(el).data('author') === author) $(el).show()
+    if ($(el).data('language') === language || language === noLanguage) $(el).show()
+    if ($(el).data('author') !== author && author !== noAuthor) $(el).hide()
   })
-  // $('tbody tr').each((i, el) => {
-  //   let rowLanguage = $(el).data('language')
-  //     ? $(el).data('language').toLowerCase()
-  //     : null
-  //   let rowAuthor = $(el).data('author')
-  //   if (rowLanguage === filter.language || filter.language.toLowerCase() === 'language') {
-  //     console.log(rowAuthor)
-  //     if (rowAuthor === filter.author || filter.author.toLowerCase() === 'author') $(el).show()
-  //   }
-  // })
+  populateOptions({ language: language, author: author })
 }
 
 $('#filterLanguageList').on('change', event => filterList())
