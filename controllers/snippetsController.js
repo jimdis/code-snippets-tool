@@ -16,6 +16,8 @@ snippetsController.index = async (req, res, next) => {
     const languages = snippets
       .filter(snippet => snippet.language.length > 0)
       .map(snippet => snippet.language.toLowerCase())
+    const authors = snippets
+      .map(snippet => snippet.author)
     const locals = {
       userID: req.session.userID,
       snippets: snippets.map(snippet => ({
@@ -28,6 +30,7 @@ snippetsController.index = async (req, res, next) => {
         editable: snippet.userID === req.session.userID
       })),
       languages: [...new Set(languages)],
+      authors: [...new Set(authors)],
       scripts: scripts
     }
     res.render('snippets/index', { locals })

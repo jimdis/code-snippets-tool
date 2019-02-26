@@ -13,3 +13,13 @@ $('#filterLanguageList').on('change', (event) => {
     if (language === selected) $(this).show()
   })
 })
+
+$('#filterAuthorList').on('change', (event) => {
+  let selected = event.currentTarget.value
+  if (selected.toLowerCase() === 'author') {
+    $('tbody tr').show()
+  } else $('tbody tr').hide()
+  $('tbody tr').each(function (index) {
+    if ($(this).data('author') === selected) $(this).show()
+  })
+})
