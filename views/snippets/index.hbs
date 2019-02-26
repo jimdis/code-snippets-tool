@@ -20,17 +20,11 @@
                 <th>
                     <select id="filterLanguageList">
                         <option selected>Language</option>
-                        {{#each locals.languages}}
-                        <option>{{this}}</option>
-                        {{/each}}
                     </select>
                 </th>
                 <th>
                     <select id="filterAuthorList">
                         <option selected>Author</option>
-                        {{#each locals.authors}}
-                        <option>{{this}}</option>
-                        {{/each}}
                     </select>
                 </th>
                 <th class="text-center">{{#if locals.userID}}Edit/Delete{{/if}}</th>
@@ -42,8 +36,8 @@
             <tr class="accordion-toggle" data-language="{{this.language}}" data-author="{{this.author}}" data-toggle="collapse" data-target="#snippet{{this.id}}">
                 <td>{{this.title}}</td>
                 <td>{{this.description}}</td>
-                <td>{{this.language}}</td>
-                <td>{{this.author}}</td>
+                <td class="language-td">{{this.language}}</td>
+                <td class="author-td">{{this.author}}</td>
                 <td class="text-center">
                     {{#if this.editable}}
                     <a href="/snippets/edit/{{this.id}}"><span class="far fa-edit"></span></a>
