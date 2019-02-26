@@ -1,11 +1,15 @@
 /* global $ */
 'use strict'
 $('#filterLanguageList').on('change', (event) => {
-  // $('tr').each(row => {
-  //   let language = row.attr('data-language')
-  //   console.log(language)
-  // })
-  console.log($('tr').attr())
-  // console.log($('tr').not(`.language-${event.currentTarget.value}`))
-  // console.log($(`.language-${event.currentTarget.value}`))
+  let selected = event.currentTarget.value.toLowerCase()
+  console.log(selected)
+  if (selected === 'language') {
+    $('tbody tr').show()
+  } else $('tbody tr').hide()
+  $('tbody tr').each(function (index) {
+    let language = $(this).data('language')
+      ? $(this).data('language').toLowerCase()
+      : null
+    if (language === selected) $(this).show()
+  })
 })
