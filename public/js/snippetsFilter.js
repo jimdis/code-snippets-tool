@@ -1,30 +1,31 @@
 /* global $ */
 'use strict'
 
-function populateOptions (selection = { author: 'Author', language: 'Language' }) {
-  const languageList = $('#filterLanguageList')
-  const authorList = $('#filterAuthorList')
+const languageHeading = 'Language (all)'
+const authorHeading = 'Author (all)'
+const languageList = $('#filterLanguageList')
+const authorList = $('#filterAuthorList')
+
+function populateOptions (selection = { language: languageHeading, author: authorHeading }) {
   let languages = [...new Set(
     $('.language-td')
       .filter((i, el) => {
-        if ($(el).next().text() === selection.author || selection.author === 'Author') return true
+        if ($(el).next().text() === selection.author || selection.author === authorHeading) return true
       })
-      .map((i, el) => {
-        if ($(el).text().length > 0) return $(el).text()
-      })
+      .map((i, el) => $(el).text())
   )]
   languages.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
-  languageList.html(`<option selected>Language</option>`)
+  languageList.html(`<option selected>${languageHeading}</option>`)
   languages.forEach(language => languageList.append(`<option>${language}</option>)`))
 
   let authors = [...new Set($('.author-td')
     .filter((i, el) => {
-      if ($(el).prev().text() === selection.language || selection.language === 'Language') return true
+      if ($(el).prev().text() === selection.language || selection.language === languageHeading) return true
     })
     .map((i, el) => $(el).text())
   )]
   authors.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
-  authorList.html(`<option selected>Author</option>`)
+  authorList.html(`<option selected>${authorHeading}</option>`)
   authors.forEach(author => authorList.append(`<option>${author}</option>)`))
   languageList.val(selection.language)
   authorList.val(selection.author)

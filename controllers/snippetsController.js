@@ -91,6 +91,7 @@ snippetsController.edit = async (req, res, next) => {
     if (!req.session.userID) throw new Error('You need to be logged in to edit a snippet')
     const snippet = await Snippet.findOne({ _id: req.params.id })
     if (req.session.userID !== snippet.userID) throw new Error('You do not have access to edit this snippet')
+    const scripts = [{ script: '/js/languageFinder.js' }]
     const locals = {
       snippetID: snippet._id,
       userID: snippet.userID,
@@ -98,7 +99,8 @@ snippetsController.edit = async (req, res, next) => {
       title: snippet.title,
       description: snippet.description,
       language: snippet.language,
-      content: snippet.content
+      content: snippet.content,
+      scripts: scripts
     }
     res.render('snippets/edit', { locals })
   } catch (error) {
