@@ -5,6 +5,21 @@ const User = require('../models/User')
 
 const snippetsController = {}
 
+// Middleware to check if user is authorized
+snippetsController.authorization = (req, res, next) => {
+  if (req.session.userID) {
+    next()
+  } else {
+    let path = req.path.substr(1, 1)
+    let message = 'You need to be logged in to view this page'
+    if (path === 'c') message = 'You need to be logged in to create new snippets'
+    if (path === 'e') message = 'You don\'t have access to modify this snippet'
+    if (path === 'd') message = 'You don\'t have access to delete this snippet'
+    req.session.flash = { type: 'danger', text: message }
+    res.redirect('/snippets')
+  }
+}
+
 /**
  * index GET
  */
@@ -44,7 +59,6 @@ snippetsController.index = async (req, res, next) => {
  */
 snippetsController.create = async (req, res, next) => {
   try {
-    if (!req.session.userID) throw new Error('You need to be logged in to create a new snippet')
     const scripts = [{ script: '/js/languageFinder.js' }]
     const locals = {
       userID: req.session.userID,
@@ -52,8 +66,7 @@ snippetsController.create = async (req, res, next) => {
     }
     res.render('snippets/create', { locals })
   } catch (error) {
-    req.session.flash = { type: 'danger', text: error.message }
-    res.redirect('../account/login')
+    next(error)
   }
 }
 
@@ -62,7 +75,6 @@ snippetsController.create = async (req, res, next) => {
  */
 snippetsController.createPost = async (req, res, next) => {
   try {
-    if (!req.session.userID) throw new Error('You need to be logged in to create a snippet')
     const user = await User.findOne({ _id: req.body.userID })
     const snippet = new Snippet({
       userID: req.body.userID,
@@ -78,8 +90,7 @@ snippetsController.createPost = async (req, res, next) => {
     req.session.flash = { type: 'success', text: 'Snippet was created successfully.' }
     res.redirect('.')
   } catch (error) {
-    req.session.flash = { type: 'danger', text: error.message }
-    res.redirect('./create')
+    next(error)
   }
 }
 
@@ -88,9 +99,14 @@ snippetsController.createPost = async (req, res, next) => {
  */
 snippetsController.edit = async (req, res, next) => {
   try {
-    if (!req.session.userID) throw new Error('You need to be logged in to edit a snippet')
     const snippet = await Snippet.findOne({ _id: req.params.id })
-    if (req.session.userID !== snippet.userID) throw new Error('You do not have access to edit this snippet')
+    if (req.session.userID !== snippet.userID) {
+      req.session.flash = {
+        type: 'danger',
+        text: 'You do not have access to modify this snippet'
+      }
+      res.redirect('/snippets')
+    }
     const scripts = [{ script: '/js/languageFinder.js' }]
     const locals = {
       snippetID: snippet._id,
@@ -104,8 +120,7 @@ snippetsController.edit = async (req, res, next) => {
     }
     res.render('snippets/edit', { locals })
   } catch (error) {
-    req.session.flash = { type: 'danger', text: error.message }
-    res.redirect('..')
+    next(error)
   }
 }
 
@@ -114,7 +129,14 @@ snippetsController.edit = async (req, res, next) => {
  */
 snippetsController.editPost = async (req, res, next) => {
   try {
-    if (req.session.userID !== req.body.userID) throw new Error('You do not have access to modify this snippet')
+    const snippet = await Snippet.findOne({ _id: req.body.snippetID })
+    if (req.session.userID !== snippet.userID) {
+      req.session.flash = {
+        type: 'danger',
+        text: 'You do not have access to modify this snippet'
+      }
+      res.redirect('/snippets')
+    }
     const result = await Snippet.updateOne({ _id: req.body.snippetID },
       {
         title: req.body.title,
@@ -122,7 +144,6 @@ snippetsController.editPost = async (req, res, next) => {
         language: req.body.language,
         content: req.body.content
       })
-    console.log(result)
     if (result.nModified === 1) {
       req.session.flash = { type: 'success', text: 'Your Snippet was updated successfully.' }
     } else {
@@ -133,8 +154,7 @@ snippetsController.editPost = async (req, res, next) => {
     }
     res.redirect('.')
   } catch (error) {
-    req.session.flash = { type: 'danger', text: error.message }
-    res.redirect('.')
+    next(error)
   }
 }
 
@@ -144,14 +164,18 @@ snippetsController.editPost = async (req, res, next) => {
 snippetsController.delete = async (req, res, next) => {
   try {
     const snippet = await Snippet.findOne({ _id: req.params.id })
-    console.log(snippet)
-    if (req.session.userID !== snippet.userID) throw new Error('You do not have access to delete this snippet')
+    if (req.session.userID !== snippet.userID) {
+      req.session.flash = {
+        type: 'danger',
+        text: 'You do not have access to delete this snippet'
+      }
+      res.redirect('/snippets')
+    }
     await Snippet.deleteOne({ _id: req.params.id })
     req.session.flash = { type: 'success', text: 'Snippet was removed successfully.' }
     res.redirect('..')
   } catch (error) {
-    req.session.flash = { type: 'danger', text: error.message }
-    res.redirect('..')
+    next(error)
   }
 }
 

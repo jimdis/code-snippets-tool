@@ -30,7 +30,7 @@ const snippetSchema = new mongoose.Schema({
   },
   language: {
     type: String,
-    required: false,
+    required: true,
     trim: true
   },
   content: {

@@ -10,16 +10,15 @@ router.get('/', controller.index)
 
 // GET, POST /create
 router.route('/create')
-  .get(controller.create)
-  .post(controller.createPost)
+  .get(controller.authorization, controller.create)
+  .post(controller.authorization, controller.createPost)
 
 // GET, POST /edit
-router.get('/edit/:id', controller.edit)
-router.post('/edit', controller.editPost)
+router.get('/edit/:id', controller.authorization, controller.edit)
+router.post('/edit', controller.authorization, controller.editPost)
 
 // GET /delete
-router.get('/delete/:id', controller.delete)
-// router.post('/delete', controller.deletePost)
+router.get('/delete/:id', controller.authorization, controller.delete)
 
 // Exports.
 module.exports = router

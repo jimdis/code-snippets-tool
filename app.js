@@ -66,12 +66,6 @@ app.use((req, res, next) => {
   res.sendFile(path.join(__dirname, 'public', '404.html'))
 })
 
-// catch 403
-app.use((req, res, next) => {
-  res.status(403)
-  res.sendFile(path.join(__dirname, 'public', '403.html'))
-})
-
 // error handler
 app.use((err, req, res, next) => {
   res.status(err.status || 500)
