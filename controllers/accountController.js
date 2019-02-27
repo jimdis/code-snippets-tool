@@ -104,7 +104,9 @@ accountController.createPost = async (req, res, next) => {
       password: req.body.password
     })
     await user.save()
+    req.session.regenerate(err => { if (err) throw new Error(err) })
     req.session.userID = user._id
+    req.session.username = user.username
     req.session.flash = { type: 'success', text: 'User Account was created successfully.' }
     res.redirect('/')
   } catch (error) {

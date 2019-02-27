@@ -6,6 +6,7 @@ const hbs = require('express-hbs')
 const session = require('express-session')
 const path = require('path')
 const logger = require('morgan')
+const favicon = require('serve-favicon')
 
 const mongoose = require('./config/mongoose')
 
@@ -17,8 +18,15 @@ mongoose.connect().catch(error => {
   process.exit(1)
 })
 
-// Initiate helmet
+// Initiate & configure helmet
 app.use(helmet())
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    styleSrc: ["'self'", "'unsafe-inline'", 'stackpath.bootstrapcdn.com', 'cdnjs.cloudflare.com'],
+    scriptSrc: ["'self'", "'unsafe-inline'", 'code.jquery.com', 'cdnjs.cloudflare.com', 'stackpath.bootstrapcdn.com', 'use.fontawesome.com']
+  }
+}))
 
 // view engine setup
 app.engine('hbs', hbs.express4({
@@ -32,6 +40,7 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(logger('dev'))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
 // setup and use session middleware (https://github.com/expressjs/session)
 const sessionOptions = {
@@ -40,7 +49,9 @@ const sessionOptions = {
   resave: false, // Resave even if a request is not changing the session.
   saveUninitialized: false, // Don't save a created but not modified session.
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24 // 1 day
+    // secure: true in production (won't work on localhost without https)
+    maxAge: 1000 * 60 * 60 * 24, // 1 day
+    sameSite: 'lax' // allowed when following a regular link from an external website, blocking it in CSRF-prone request methods (POST)
   }
 }
 
@@ -69,7 +80,8 @@ app.use((req, res, next) => {
 // error handler
 app.use((err, req, res, next) => {
   res.status(err.status || 500)
-  res.send(err.message || 'Internal Server Error')
+  let message = err.message || 'Internal Server Error'
+  res.render('home/error', { message })
 })
 
 app.listen(3000, () => console.log('Server running at http://localhost:3000/'))

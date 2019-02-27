@@ -26,7 +26,10 @@ snippetsController.authorization = (req, res, next) => {
 
 snippetsController.index = async (req, res, next) => {
   try {
-    const scripts = [{ script: '/js/snippetsFilter.js' }]
+    const scripts = [
+      { script: '/js/snippetsFilter.js' },
+      { script: '/js/copyToClipboard.js' }
+    ]
     const snippets = await Snippet.find({})
     const locals = {
       userID: req.session.userID,

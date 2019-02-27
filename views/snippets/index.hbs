@@ -70,7 +70,10 @@
             <tr data-language="{{this.language}}" data-author="{{this.author}}">
                 <td class="accordion-body collapse" id="snippet{{this.id}}" colspan="5">
                     <div>
-                        <pre><code>{{this.content}}</code></pre>
+                        <div class="text-right">
+                            <button class="btn btn-outline-secondary btn-sm copyClipboard" data-clipboard-target="#code-{{this.id}}">Copy to clipboard</button>
+                        </div>
+                        <pre><code id="code-{{this.id}}">{{this.content}}</code></pre>
                     </div>
                 </td>
             </tr>
