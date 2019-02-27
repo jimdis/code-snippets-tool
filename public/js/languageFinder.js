@@ -1,7 +1,7 @@
 /* global $ */
 'use strict'
 
-let selectedLanguage
+let selectedLanguage = $('#snippetLanguage').val()
 
 async function loadLanguages () {
   let data = await window.fetch('/js/languages.json')

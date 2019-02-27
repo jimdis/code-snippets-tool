@@ -3,7 +3,7 @@
         <span class="fas fa-code text-muted mr-3"></span>Snippets
     </h1>
     {{#if locals.filterByAuthor}}
-    <h2>Filtering by Author: <span id="filterByAuthor">{{locals.filterByAuthor}}</span></h2>
+    <span id="filterByAuthor" class="d-none">{{locals.filterByAuthor}}</span>
     {{/if}}
     {{#if locals.userID}}
     <div class="mb-3">
@@ -16,6 +16,7 @@
     </div>
     {{/if}}
     <table class="table table-hover">
+        <caption></caption>
         <thead>
             <tr>
                 <th>Name</th>
@@ -42,10 +43,29 @@
                 <td class="text-center">
                     {{#if this.editable}}
                     <a href="/snippets/edit/{{this.id}}"><span class="far fa-edit"></span></a>
-                    <a href="/snippets/delete/{{this.id}}"><span class="far fa-trash-alt"></span></a>
+                    <a href="#" data-toggle="modal" data-target="#deleteWarning-{{this.id}}"><span class="far fa-trash-alt"></span></a>
+                    <!-- Modal -->
+                    <div class="modal fade" id="deleteWarning-{{this.id}}" tabindex="-1" role="dialog" aria-labelledby="deleteWarningLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteWarningLabel">Delete!?</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you want to delete this snippet?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">No, my mistake</button>
+                                    <a href="/snippets/delete/{{this.id}}"><button type="button" class="btn btn-danger">Delete!</button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {{/if}}
                 </td>
-
             </tr>
             <tr data-language="{{this.language}}" data-author="{{this.author}}">
                 <td class="accordion-body collapse" id="snippet{{this.id}}" colspan="5">

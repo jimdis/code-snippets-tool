@@ -42,13 +42,21 @@ function filterList () {
     if ($(el).data('author') !== author && author !== noAuthor) $(el).hide()
   })
   populateOptions({ language: language, author: author })
+  $('table caption').text(`Filtering by ${author} and ${language}`)
 }
 
-$('#filterLanguageList').on('change', event => filterList())
+$('#filterLanguageList').change(filterList)
 
-$('#filterAuthorList').on('change', event => filterList())
+$('#filterAuthorList').change(filterList)
+
+$('.deleteSnippet').click(() => {
+  let selector = `#warning-${$('.deleteSnippet').data('delete')}`
+  console.log(selector)
+  $(selector).show()
+})
 
 populateOptions()
-if ($('#filterAuthorList option').filter((i, el) => $(el).text() === filterByAuthor).length > 0) {
+if ($('#filterAuthorList option').filter((i, el) => $(el).text() === filterByAuthor)
+  .length > 0) {
   $('#filterAuthorList').val(filterByAuthor).change()
 }
