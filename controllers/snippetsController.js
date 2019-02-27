@@ -28,13 +28,9 @@ snippetsController.index = async (req, res, next) => {
   try {
     const scripts = [{ script: '/js/snippetsFilter.js' }]
     const snippets = await Snippet.find({})
-    const languages = snippets
-      .filter(snippet => snippet.language.length > 0)
-      .map(snippet => snippet.language.toLowerCase())
-    const authors = snippets
-      .map(snippet => snippet.author)
     const locals = {
       userID: req.session.userID,
+      filterByAuthor: req.query.author,
       snippets: snippets.map(snippet => ({
         id: snippet._id,
         title: snippet.title,
@@ -44,10 +40,9 @@ snippetsController.index = async (req, res, next) => {
         content: snippet.content,
         editable: snippet.userID === req.session.userID
       })),
-      languages: [...new Set(languages)],
-      authors: [...new Set(authors)],
       scripts: scripts
     }
+    console.log(req.query)
     res.render('snippets/index', { locals })
   } catch (error) {
     next(error)

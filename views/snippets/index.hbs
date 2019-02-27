@@ -2,6 +2,9 @@
     <h1>
         <span class="fas fa-code text-muted mr-3"></span>Snippets
     </h1>
+    {{#if locals.filterByAuthor}}
+    <h2>Filtering by Author: <span id="filterByAuthor">{{locals.filterByAuthor}}</span></h2>
+    {{/if}}
     {{#if locals.userID}}
     <div class="mb-3">
         <a href="/snippets/create" class="btn btn-primary" role="button">Create a new Snippet »</a>

@@ -7,7 +7,7 @@ const controller = require('../controllers/accountController')
 
 // GET, POST /
 router.route('/')
-  .get(controller.index)
+  .get(controller.authorization, controller.index)
   .post(controller.indexPost)
 
 // GET, POST /create

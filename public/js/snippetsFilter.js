@@ -1,10 +1,10 @@
 /* global $ */
 'use strict'
-
 const languageHeading = 'Language (all)'
 const authorHeading = 'Author (all)'
 const languageList = $('#filterLanguageList')
 const authorList = $('#filterAuthorList')
+const filterByAuthor = $('#filterByAuthor').text()
 
 function populateOptions (selection = { language: languageHeading, author: authorHeading }) {
   let languages = [...new Set(
@@ -49,3 +49,6 @@ $('#filterLanguageList').on('change', event => filterList())
 $('#filterAuthorList').on('change', event => filterList())
 
 populateOptions()
+if ($('#filterAuthorList option').filter((i, el) => $(el).text() === filterByAuthor).length > 0) {
+  $('#filterAuthorList').val(filterByAuthor).change()
+}
