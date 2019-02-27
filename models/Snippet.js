@@ -1,3 +1,10 @@
+/**
+ * Snippet Model.
+ *
+ * @author Jim Disenstam
+ * @version 1.0
+ */
+
 'use strict'
 
 const mongoose = require('mongoose')

@@ -1,9 +1,12 @@
+/**
+ * Client-side Account Creation Validation Module.
+ *
+ * @author Jim Disenstam
+ * @version 1.0
+ */
+
 /* global $ */
 'use strict'
-
-/*
-* Client side validation module
-*/
 
 // Validation parameters
 const minUsername = 3

@@ -1,3 +1,10 @@
+/**
+ * Account Controllers.
+ *
+ * @author Jim Disenstam
+ * @version 1.0
+ */
+
 'use strict'
 
 const User = require('../models/User')
@@ -62,6 +69,7 @@ accountController.login = async (req, res, next) => res.render('account/login')
  */
 accountController.loginPost = async (req, res, next) => {
   try {
+    // Run if login fails
     const loginFail = () => {
       req.session.flash = {
         type: 'danger',
@@ -69,8 +77,10 @@ accountController.loginPost = async (req, res, next) => {
       }
       res.redirect('/login')
     }
+    // Check username
     const user = await User.findOne({ username: req.body.username })
     if (!user) loginFail()
+    // Check password
     let result = await user.comparePassword(req.body.password)
     if (result) {
       req.session.regenerate(err => { if (err) throw new Error(err) })
@@ -113,79 +123,6 @@ accountController.createPost = async (req, res, next) => {
     next(error)
   }
 }
-
-// /**
-//  * edit GET
-//  */
-// createController.edit = async (req, res, next) => {
-//   try {
-//     const pureNumber = await PureNumber.findOne({ _id: req.params.id })
-//     const locals = {
-//       id: pureNumber._id,
-//       number: pureNumber.number
-//     }
-//     res.render('create/edit', { locals })
-//   } catch (error) {
-//     req.session.flash = { type: 'danger', text: error.message }
-//     res.redirect('.')
-//   }
-// }
-
-// /**
-//  * edit POST
-//  */
-// createController.editPost = async (req, res, next) => {
-//   try {
-//     const result = await PureNumber.updateOne({ _id: req.body.id }, {
-//       number: req.body.number
-//     })
-
-//     if (result.nModified === 1) {
-//       req.session.flash = { type: 'success', text: 'Number was updated successfully.' }
-//     } else {
-//       req.session.flash = {
-//         type: 'danger',
-//         text: 'The number you attempted to update was removed by another user after you got the original values.'
-//       }
-//     }
-//     res.redirect('/')
-//   } catch (error) {
-//     req.session.flash = { type: 'danger', text: error.message }
-//     res.redirect(`./edit/${req.body.id}`)
-//   }
-// }
-
-// /**
-//  * delete GET
-//  */
-// createController.delete = async (req, res, next) => {
-//   try {
-//     const pureNumber = await PureNumber.findOne({ _id: req.params.id })
-//     const locals = {
-//       id: pureNumber._id,
-//       number: pureNumber.number
-//     }
-//     res.render('create/delete', { locals })
-//   } catch (error) {
-//     req.session.flash = { type: 'danger', text: error.message }
-//     res.redirect('.')
-//   }
-// }
-
-// /**
-//  * delete POST
-//  */
-// createController.deletePost = async (req, res, next) => {
-//   try {
-//     await PureNumber.deleteOne({ _id: req.body.id })
-
-//     req.session.flash = { type: 'success', text: 'Number was removed successfully.' }
-//     res.redirect('/')
-//   } catch (error) {
-//     req.session.flash = { type: 'danger', text: error.message }
-//     req.redirect(`./delete/${req.body.id}`)
-//   }
-// }
 
 // Exports.
 module.exports = accountController

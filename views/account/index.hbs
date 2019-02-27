@@ -8,8 +8,6 @@
                 <th>Username</th>
                 <th>Joined</th>
                 <th class="text-center">#Snippets</th>
-                {{!-- Implement later:
-                <th class="text-center">Edit/Delete Account</th> --}}
             </tr>
         </thead>
         <tbody>
@@ -17,10 +15,6 @@
                 <td>{{locals.username}}</td>
                 <td>{{locals.date}}</td>
                 <td class="text-center"><a href="/snippets?author={{locals.username}}">{{locals.snippets}}</a></td>
-                {{!-- <td class="text-center">
-                    <a href="/create/edit/{{user.id}}"><span class="far fa-edit"></span></a>
-                    <a href="/create/delete/{{user.id}}"><span class="far fa-trash-alt"></span></a>
-                </td> --}}
             </tr>
         </tbody>
     </table>

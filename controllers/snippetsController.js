@@ -1,3 +1,10 @@
+/**
+ * Snippets Controllers.
+ *
+ * @author Jim Disenstam
+ * @version 1.0
+ */
+
 'use strict'
 
 const Snippet = require('../models/Snippet')
@@ -26,6 +33,7 @@ snippetsController.authorization = (req, res, next) => {
 
 snippetsController.index = async (req, res, next) => {
   try {
+    // Load client-side scripts
     const scripts = [
       { script: '/js/snippetsFilter.js' },
       { script: '/js/copyToClipboard.js' }
@@ -45,7 +53,6 @@ snippetsController.index = async (req, res, next) => {
       })),
       scripts: scripts
     }
-    console.log(req.query)
     res.render('snippets/index', { locals })
   } catch (error) {
     next(error)
@@ -82,9 +89,7 @@ snippetsController.createPost = async (req, res, next) => {
       language: req.body.language,
       content: req.body.content
     })
-
     await snippet.save()
-
     req.session.flash = { type: 'success', text: 'Snippet was created successfully.' }
     res.redirect('.')
   } catch (error) {
@@ -98,6 +103,7 @@ snippetsController.createPost = async (req, res, next) => {
 snippetsController.edit = async (req, res, next) => {
   try {
     const snippet = await Snippet.findOne({ _id: req.params.id })
+    // Check that user is authorized to edit snippet
     if (req.session.userID !== snippet.userID) {
       req.session.flash = {
         type: 'danger',
@@ -105,6 +111,7 @@ snippetsController.edit = async (req, res, next) => {
       }
       res.redirect('/snippets')
     }
+    // Load client-side scripts
     const scripts = [{ script: '/js/languageFinder.js' }]
     const locals = {
       snippetID: snippet._id,
@@ -128,6 +135,7 @@ snippetsController.edit = async (req, res, next) => {
 snippetsController.editPost = async (req, res, next) => {
   try {
     const snippet = await Snippet.findOne({ _id: req.body.snippetID })
+    // Check that user is authorized to edit snippet
     if (req.session.userID !== snippet.userID) {
       req.session.flash = {
         type: 'danger',
@@ -162,6 +170,7 @@ snippetsController.editPost = async (req, res, next) => {
 snippetsController.delete = async (req, res, next) => {
   try {
     const snippet = await Snippet.findOne({ _id: req.params.id })
+    // Check that user is authorized to delete snippet
     if (req.session.userID !== snippet.userID) {
       req.session.flash = {
         type: 'danger',

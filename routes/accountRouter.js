@@ -1,3 +1,10 @@
+/**
+ * Account Routes.
+ *
+ * @author Jim Disenstam
+ * @version 1.0
+ */
+
 'use strict'
 
 const express = require('express')
@@ -19,14 +26,6 @@ router.route('/create')
 router.route('/login')
   .get(controller.login)
   .post(controller.loginPost)
-
-// // GET, POST /edit
-// router.get('/edit/:id', controller.edit)
-// router.post('/edit', controller.editPost)
-
-// // GET, POST  /delete
-// router.get('/delete/:id', controller.delete)
-// router.post('/delete', controller.deletePost)
 
 // Exports.
 module.exports = router

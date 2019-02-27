@@ -1,3 +1,10 @@
+/**
+ * Home Routes.
+ *
+ * @author Jim Disenstam
+ * @version 1.0
+ */
+
 'use strict'
 
 const express = require('express')

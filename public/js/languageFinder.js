@@ -1,8 +1,16 @@
+/**
+ * Language Finder Module
+ *
+ * @author Jim Disenstam
+ * @version 1.0
+ */
+
 /* global $ */
 'use strict'
 
 let selectedLanguage = $('#snippetLanguage').val()
 
+// Fetches list of programming languages from json, sets event listener for input field & form
 async function loadLanguages () {
   let data = await window.fetch('/js/languages.json')
   data = await data.json()
@@ -19,9 +27,11 @@ async function loadLanguages () {
   $('form').submit(event => $('#snippetLanguage').val(selectedLanguage || languages[0]))
 }
 
+// Creates a datalist with languages
 function createLanguageList (languages, input) {
   let datalist = document.getElementById('languagesList')
   datalist.innerHTML = ''
+  // Escape regex characters in regex expression
   RegExp.escape = function (s) {
     return s.replace(/[-\\$*+?.()|[\]{}]/g, '\\$&')
   }

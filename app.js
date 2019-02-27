@@ -1,3 +1,10 @@
+/**
+ * The starting point of the application.
+ *
+ * @author Jim Disenstam
+ * @version 1.0
+ */
+
 'use strict'
 
 const express = require('express')
@@ -54,7 +61,6 @@ const sessionOptions = {
     sameSite: 'lax' // allowed when following a regular link from an external website, blocking it in CSRF-prone request methods (POST)
   }
 }
-
 app.use(session(sessionOptions))
 
 // middleware to be executed before the routes
