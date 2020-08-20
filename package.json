@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/1dv023/jd222qe-examination-2#readme",
   "dependencies": {
-    "bcrypt": "^3.0.4",
+    "bcrypt": "^5.0.0",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "express-hbs": "^2.0.2",
